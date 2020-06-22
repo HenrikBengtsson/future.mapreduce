@@ -1,0 +1,20 @@
+Package: future.mapreduce
+Version: 0.0.0-9000
+Title: Helper Package for Future Map-Reduce APIs
+Depends:
+    R (>= 3.2.0),
+    future (>= 1.17.0)
+Imports:
+    globals (>= 0.12.5),
+    utils
+Suggests:
+Authors@R: c(person("Henrik", "Bengtsson", role=c("aut", "cre", "cph"),
+                                          email = "henrikb@braju.com"),
+             person("R Core Team", role = c("cph", "ctb")))
+Description: Utility functions for packages implementing map-reduce APIs on top of the future framework.
+License: GPL (>= 2)
+LazyLoad: TRUE
+URL: https://github.com/HenrikBengtsson/future.mapreduce
+BugReports: https://github.com/HenrikBengtsson/future.mapreduce/issues
+RoxygenNote: 7.1.0
+Roxygen: list(markdown = TRUE)
