@@ -23,4 +23,3 @@ Any seed returned is a valid RNG seed.
 \description{
 Produce Reproducible Seeds for Parallel Random Number Generation
 }
-\keyword{internal}

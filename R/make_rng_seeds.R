@@ -14,8 +14,7 @@
 #' 
 #' @importFrom parallel nextRNGStream nextRNGSubStream splitIndices
 #' @importFrom utils capture.output str
-#' 
-#' @keywords internal
+#' @export
 make_rng_seeds <- function(count, seed = FALSE,
                            debug = getOption("future.debug", FALSE)) {
   ## Don't use RNGs? (seed = {FALSE, NULL})

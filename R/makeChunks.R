@@ -4,7 +4,7 @@
 #' 
 #' @param nbrOfElements (integer) Total number of elements to iterate over.
 #' 
-#' @param nbrOfWorker (integer) Number of workers available.
+#' @param nbrOfWorkers (integer) Number of workers available.
 #' 
 #' @param future.scheduling (numeric) A strictly positive scalar.
 #' Only used if argument `future.chunk.size` is `NULL`.
@@ -33,7 +33,7 @@
 #'                  vector `sample.int(nbrOfElements)`.
 #' 
 #' @importFrom parallel splitIndices
-#' @keywords internal
+#' @export
 makeChunks <- function(nbrOfElements, nbrOfWorkers,
                        future.scheduling = 1.0, future.chunk.size = NULL) {
   stop_if_not(nbrOfElements >= 0L, nbrOfWorkers >= 1L)

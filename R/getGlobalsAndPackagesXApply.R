@@ -1,5 +1,25 @@
+#' Identify Globals and Packages from a Map-Reduce Function Call
+#'
+#' @param FUN ...
+#'
+#' @param args ...
+#'
+#' @param MoreArgs ...
+#'
+#' @param envir ...
+#'
+#' @param future.globals ...
+#'
+#' @param future.packages ...
+#'
+#' @param debug ...
+#'
+#' @return A names list with elements `globals`, `packages`, and
+#' `scanForGlobals`.
+#'
 #' @importFrom globals globalsByName
 #' @importFrom future as.FutureGlobals getGlobalsAndPackages resolve
+#' @export
 getGlobalsAndPackagesXApply <- function(FUN, args = NULL, MoreArgs = NULL, envir, future.globals = TRUE, future.packages = NULL, debug = getOption("future.debug", FALSE)) {
   use_args <- !is.null(args)
   
