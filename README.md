@@ -1,4 +1,4 @@
-# future.mapreduce: Utility Function for Future Map-Reduce API Packages
+# future.mapreduce: Utility Functions for Future Map-Reduce API Packages
 
 
 ## Installation
