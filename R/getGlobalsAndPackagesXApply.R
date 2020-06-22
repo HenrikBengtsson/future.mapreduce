@@ -93,4 +93,4 @@ getGlobalsAndPackagesXApply <- function(FUN, args = NULL, MoreArgs = NULL, envir
   }
 
   list(globals = globals, packages = packages, scanForGlobals = scanForGlobals)
-} ## findGlobalsStep1()
+}
