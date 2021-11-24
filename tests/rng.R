@@ -18,6 +18,7 @@ stopifnot(inherits(res, "simpleError"))
 
 seed <- as_lecyer_cmrg_seed(seed = 42L)
 str(seed)
+stopifnot(is_lecyer_cmrg_seed(seed))
 set_random_seed(seed = seed)
 stopifnot(identical(get_random_seed(), seed))
 
@@ -28,6 +29,11 @@ stopifnot(identical(seed2, seed))
 seed3 <- as_lecyer_cmrg_seed(seed = seed)
 str(seed3)
 stopifnot(identical(seed3, seed))
+
+## A random seed
+seed4 <- as_lecyer_cmrg_seed(seed = NA)
+str(seed4)
+stopifnot(is_lecyer_cmrg_seed(seed4))
 
 
 message(" - make_rng_seeds ...")
