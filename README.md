@@ -1,7 +1,7 @@
 
 
 <div id="badges"><!-- pkgdown markup -->
- <a href="https://github.com/HenrikBengtsson/future.mapreduce/actions?query=workflow%3AR-CMD-check"><img border="0" src="https://github.com/HenrikBengtsson/future.mapreduce/workflows/R-CMD-check/badge.svg?branch=develop" alt="Build status"/></a>    <a href="https://lifecycle.r-lib.org/articles/stages.html"><img border="0" src="man/figures/lifecycle-experimental-orange.svg" alt="Life cycle: experimental"/></a>
+ <a href="https://github.com/HenrikBengtsson/future.mapreduce/actions?query=workflow%3AR-CMD-check"><img border="0" src="https://github.com/HenrikBengtsson/future.mapreduce/actions/workflows/R-CMD-check.yaml/badge.svg?branch=develop" alt="R CMD check status"/></a>     <a href="https://app.codecov.io/gh/HenrikBengtsson/future.mapreduce"><img border="0" src="https://codecov.io/gh/HenrikBengtsson/future.mapreduce/branch/develop/graph/badge.svg" alt="Coverage Status"/></a> <a href="https://lifecycle.r-lib.org/articles/stages.html"><img border="0" src="man/figures/lifecycle-experimental-orange.svg" alt="Life cycle: experimental"/></a>
 </div>
 
 # future.mapreduce: Utility Functions for Future Map-Reduce API Packages 
@@ -39,4 +39,4 @@ This will install the package from source.
 ## Contributing
 
 To contribute to this package, please see [CONTRIBUTING.md](CONTRIBUTING.md).
- 
+
