@@ -17,5 +17,5 @@ License: GPL (>= 2)
 LazyLoad: TRUE
 URL: https://github.com/HenrikBengtsson/future.mapreduce
 BugReports: https://github.com/HenrikBengtsson/future.mapreduce/issues
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Roxygen: list(markdown = TRUE)

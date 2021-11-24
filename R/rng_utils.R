@@ -46,7 +46,7 @@ as_lecyer_cmrg_seed <- function(seed) {
   if (is.logical(seed)) {
     stop_if_not(length(seed) == 1L)
     if (!is.na(seed) && !seed) {
-      stop("Argument 'seed' must be TRUE if logical: ", seed)
+      stopf("Argument 'seed' must be TRUE if logical: %s", seed)
     }
 
     oseed <- get_random_seed()
@@ -79,5 +79,5 @@ as_lecyer_cmrg_seed <- function(seed) {
     return(get_random_seed())
   }
   
-  stop("Argument 'seed' must be L'Ecuyer-CMRG RNG seed as returned by parallel::nextRNGStream() or an single integer: ", capture.output(str(seed)))
+  stopf("Argument 'seed' must be L'Ecuyer-CMRG RNG seed as returned by parallel::nextRNGStream() or an single integer: %s", capture.output(str(seed)))
 }

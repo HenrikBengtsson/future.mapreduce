@@ -57,7 +57,7 @@ getGlobalsAndPackagesXApply <- function(FUN, args = NULL, MoreArgs = NULL, envir
       stop("Invalid argument 'future.globals'. All globals must be named.")
     }
   } else {
-    stop("Invalid argument 'future.globals': ", mode(globals))
+    stopf("Invalid argument 'future.globals': %s", mode(globals))
   }
   globals <- as.FutureGlobals(globals)
   stop_if_not(inherits(globals, "FutureGlobals"))
@@ -90,7 +90,7 @@ getGlobalsAndPackagesXApply <- function(FUN, args = NULL, MoreArgs = NULL, envir
   reserved <- intersect(c("...future.FUN", "...future.elements_ii",
                         "...future.seeds_ii"), names)
   if (length(reserved) > 0) {
-    stop("Detected globals using reserved variables names: ",
+    stopf("Detected globals using reserved variables names: %s",
          paste(sQuote(reserved), collapse = ", "))
   }
  
