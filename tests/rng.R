@@ -38,6 +38,9 @@ stopifnot(is_lecyer_cmrg_seed(seed4))
 
 message(" - make_rng_seeds ...")
 
+seeds <- make_rng_seeds(2L, seed = NULL)
+stopifnot(is.null(seeds))
+
 seeds <- make_rng_seeds(2L, seed = FALSE)
 stopifnot(is.null(seeds))
 
@@ -80,6 +83,31 @@ stopifnot(inherits(res, "simpleError"))
 seeds0 <- lapply(1:2, FUN = as_lecyer_cmrg_seed)
 res <- tryCatch({
   seeds <- make_rng_seeds(1L, seed = seeds0)
+}, error = identity)
+print(res)
+stopifnot(inherits(res, "simpleError"))
+
+## Seeds of different kinds
+seeds0 <- lapply(1:2, FUN = as_lecyer_cmrg_seed)
+seeds0[[1]] <- seeds0[[1]][-1]
+res <- tryCatch({
+  seeds <- make_rng_seeds(2L, seed = seeds0)
+}, error = identity)
+print(res)
+stopifnot(inherits(res, "simpleError"))
+
+## List of scalar seeds?
+res <- tryCatch({
+  seeds <- make_rng_seeds(1L, seed = list(42L))
+}, error = identity)
+print(res)
+stopifnot(inherits(res, "simpleError"))
+
+## Not seeds at all?
+seeds0 <- lapply(1:2, FUN = as_lecyer_cmrg_seed)
+seeds0[[1]] <- letters[1:7]
+res <- tryCatch({
+  seeds <- make_rng_seeds(2L, seed = seeds0)
 }, error = identity)
 print(res)
 stopifnot(inherits(res, "simpleError"))
