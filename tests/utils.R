@@ -111,8 +111,9 @@ message("*** assert_values2() ...")
 
 assert_values2(nX = 2L, values2 = as.list(1:2))
 res <- tryCatch({
-  assert_values2(nX = 1L, values = as.list(1:2), values2 = as.list(1:2), fcn = "tests", debug = TRUE)
+  assert_values2(nX = 1L, values = as.list(1:2), values2 = as.list(1:2), fcn_name = "tests", debug = TRUE)
 }, error = identity)
+print(res)
 stopifnot(inherits(res, "FutureError"))
 
 message("*** assert_values2() ... DONE")
