@@ -41,6 +41,7 @@ hpaste <- future.mapreduce:::hpaste
 mdebug <- future.mapreduce:::mdebug
 mdebugf <- future.mapreduce:::mdebugf
 import_from <- future.mapreduce:::import_from
+import_future <- future.mapreduce:::import_future
 get_random_seed <- future.mapreduce:::get_random_seed
 set_random_seed <- future.mapreduce:::set_random_seed
 as_lecyer_cmrg_seed <- future.mapreduce:::as_lecyer_cmrg_seed
@@ -48,6 +49,11 @@ is_lecyer_cmrg_seed <- future.mapreduce:::is_lecyer_cmrg_seed
 make_rng_seeds <- future.mapreduce:::make_rng_seeds
 stop_if_not <- future.mapreduce:::stop_if_not
 assert_values2 <- future.mapreduce:::assert_values2
+stealth_sample.int <- future.mapreduce:::stealth_sample.int
+getOption <- future.mapreduce:::getOption
+msgf <- future.mapreduce:::msgf
+warnf <- future.mapreduce:::warnf
+stopf <- future.mapreduce:::stopf
 
 ## Local functions for test scripts
 printf <- function(...) cat(sprintf(...))

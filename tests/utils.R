@@ -73,6 +73,12 @@ message("*** mdebug() ... DONE")
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 message("*** import_from() ...")
 
+obj <- import_from("sample.int", package = "base")
+stopifnot(identical(obj, base::sample.int))
+
+obj <- import_future("future")
+stopifnot(identical(obj, future::future))
+
 obj <- import_from("non-existing-fcn", default = NA, package = "future")
 stopifnot(identical(obj, NA))
 
@@ -111,6 +117,48 @@ stopifnot(inherits(res, "FutureError"))
 
 message("*** assert_values2() ... DONE")
 
+
+message("*** stealth_sample.int() ...")
+
+if (exists(".Random.seed", envir = globalenv())) {
+  rm(list = ".Random.seed", envir = globalenv())
+}
+
+seed <- globalenv()[[".Random.seed"]]
+stopifnot(is.null(seed))
+y <- stealth_sample.int(n = 10L, size = 1L)
+stopifnot(identical(globalenv()[[".Random.seed"]], seed))
+stopifnot(is.integer(y), !anyNA(y), length(y) == 1L, all(y >= 1L), all(y <= 10L))
+
+dummy <- sample.int(1L)
+seed <- globalenv()[[".Random.seed"]]
+stopifnot(!is.null(seed))
+y <- stealth_sample.int(n = 10L, size = 1L)
+stopifnot(identical(globalenv()[[".Random.seed"]], seed))
+stopifnot(is.integer(y), !anyNA(y), length(y) == 1L, all(y >= 1L), all(y <= 10L))
+
+message("*** stealth_sample.int() ... DONE")
+
+message("*** stopf(), warnf(), msgf() ...")
+
+for (fcn in list(stopf, warnf, msgf)) {
+  res <- tryCatch(fcn("boom"), condition = identity)
+  print(res)
+  stopifnot(inherits(res, "condition"))
+}
+
+message("*** stopf(), warnf(), msg() ... DONE")
+
+
+v <- future.mapreduce:::future_version()
+message(sprintf("future version: %s", sQuote(v)))
+
+for (name in c("digits", "unknown")) {
+  v <- future.mapreduce:::getOption(name)
+  message(sprintf("option %s: %s", sQuote(name), sQuote(v)))
+  v <- future.mapreduce:::getOption(name, default = NA)
+  message(sprintf("option %s: %s", sQuote(name), sQuote(v)))
+}
 
 message("*** utils ... DONE")
 

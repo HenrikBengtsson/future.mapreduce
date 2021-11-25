@@ -1,11 +1,3 @@
-isFALSE <- function(x) {
-  is.logical(x) && length(x) == 1L && !is.na(x) && !x
-}
-
-isNA <- function(x) {
-  is.logical(x) && length(x) == 1L && is.na(x)
-}
-
 stopf <- function(fmt, ..., call. = TRUE, domain = NULL) {  #nolint
   stop(sprintf(fmt, ...), call. = call., domain = domain)
 }

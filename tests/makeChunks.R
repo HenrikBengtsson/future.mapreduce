@@ -129,6 +129,11 @@ chunks <- makeChunks(nbrOfElements = n, nbrOfWorkers = 3L, future.scheduling = T
 assert_all_indices(chunks, nbrOfElements = n)
 stopifnot(identical(chunks, list(1:3, 4:5, 6:8)))
 
+n <- 2L
+chunks <- makeChunks(nbrOfElements = n, nbrOfWorkers = 3L, future.scheduling = TRUE)
+assert_all_indices(chunks, nbrOfElements = n)
+stopifnot(identical(chunks, list(1L, 2L)))
+
 n <- 8L
 chunks <- makeChunks(nbrOfElements = n, nbrOfWorkers = 3L, future.scheduling = 0.0)
 assert_all_indices(chunks, nbrOfElements = n)
@@ -251,6 +256,31 @@ res <- tryCatch({
 print(res)
 stopifnot(inherits(res, "error"))
 
+## FIXME: This skips the validation of 'ordering'
+res <- tryCatch({
+  chunks <- makeChunks(nbrOfElements = 0L, nbrOfWorkers = 1L, future.scheduling = structure(TRUE, ordering = "unknown"))
+}, error = identity)
+print(res)
+#stopifnot(inherits(res, "error"))
+
+res <- tryCatch({
+  chunks <- makeChunks(nbrOfElements = 2L, nbrOfWorkers = 1L, future.scheduling = structure(TRUE, ordering = "unknown"))
+}, error = identity)
+print(res)
+stopifnot(inherits(res, "error"))
+
+## FIXME: This skips the validation of 'ordering'
+res <- tryCatch({
+  chunks <- makeChunks(nbrOfElements = 0L, nbrOfWorkers = 1L, future.scheduling = structure(TRUE, ordering = FALSE))
+}, error = identity)
+print(res)
+#stopifnot(inherits(res, "error"))
+
+res <- tryCatch({
+  chunks <- makeChunks(nbrOfElements = 2L, nbrOfWorkers = 1L, future.scheduling = structure(TRUE, ordering = FALSE))
+}, error = identity)
+print(res)
+stopifnot(inherits(res, "error"))
 
 message("*** makeChunks() ... DONE")
 
