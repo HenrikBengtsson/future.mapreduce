@@ -9,7 +9,7 @@ assert_results <- function(res) {
   stopifnot(inherits(globals, "Globals"), inherits(globals, "FutureGlobals"))
 
   packages <- res[["packages"]]
-  stopifnot(is.character(packages), !anyNA(packages))
+  if (!is.null(packages)) stopifnot(is.character(packages), !anyNA(packages))
 
   scanForGlobals <- res$scanForGlobals
   stopifnot(is.logical(scanForGlobals), length(scanForGlobals) == 1L,
@@ -23,14 +23,15 @@ message("*** getGlobalsAndPackagesXApply() ...")
 
 envir <- new.env()
 
-FUN <- NULL
-res <- getGlobalsAndPackagesXApply(FUN = FUN, envir = envir)
-assert_results(res)
-stopifnot(
-  length(res$globals) == 2L,
-  all(c("...future.FUN", "MoreArgs") %in% names(res$globals)),
-  length(res$packages) == 0L
-)
+for (globals in list(TRUE, FALSE, character(), list())) {
+  FUN <- function(...) NULL
+  res <- getGlobalsAndPackagesXApply(FUN = FUN, envir = envir, future.globals = globals)
+  assert_results(res)
+  stopifnot(
+    length(res$globals) == 2L,
+    all(c("...future.FUN", "MoreArgs") %in% names(res$globals))
+  )
+}
 
 ## FIXME: Why doesn't 'b' show up as a global here? /HB 2021-11-25
 FUN <- function(a) b
@@ -64,7 +65,51 @@ stopifnot(
   all(c("utils") %in% res$packages)
 )
 
+FUN <- function(...) NULL
+res <- getGlobalsAndPackagesXApply(FUN = FUN, envir = envir, future.packages = "utils")
+assert_results(res)
+
+FUN <- function(...) NULL
+res <- getGlobalsAndPackagesXApply(FUN = FUN, envir = envir, args = list(a = 42), debug = TRUE)
+assert_results(res)
+
+
 message(" - exceptions ...")
+
+FUN <- function(...) NULL
+envir <- new.env()
+
+res <- tryCatch({
+  getGlobalsAndPackagesXApply(FUN = FUN, envir = envir, future.globals = list(42))
+}, error = identity)
+stopifnot(inherits(res, "error"))
+
+res <- tryCatch({
+  getGlobalsAndPackagesXApply(FUN = FUN, envir = envir, future.globals = 42)
+}, error = identity)
+stopifnot(inherits(res, "error"))
+
+...future.FUN <- 42
+res <- tryCatch({
+  getGlobalsAndPackagesXApply(FUN = FUN, envir = envir, future.globals = "...future.FUN")
+}, error = identity)
+stopifnot(inherits(res, "error"))
+
+res <- tryCatch({
+  getGlobalsAndPackagesXApply(FUN = FUN, envir = envir, future.packages = 42)
+}, error = identity)
+stopifnot(inherits(res, "error"))
+
+res <- tryCatch({
+  getGlobalsAndPackagesXApply(FUN = FUN, envir = envir, future.packages = NA_character_)
+}, error = identity)
+stopifnot(inherits(res, "error"))
+
+res <- tryCatch({
+  getGlobalsAndPackagesXApply(FUN = FUN, envir = envir, future.packages = "")
+}, error = identity)
+stopifnot(inherits(res, "error"))
+
 
 message("*** getGlobalsAndPackagesXApply() ... DONE")
 

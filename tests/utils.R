@@ -148,7 +148,14 @@ for (fcn in list(stopf, warnf, msgf)) {
   stopifnot(inherits(res, "condition"))
 }
 
-message("*** stopf(), warnf(), msg() ... DONE")
+message("*** stopf(), warnf(), msgf() ... DONE")
+
+message("*** mprint(), mstr() ...")
+
+mprint(1, debug = TRUE)
+mstr(1, debug = TRUE)
+
+message("*** mprint(), mstr() ... DONE")
 
 
 v <- future.mapreduce:::future_version()
