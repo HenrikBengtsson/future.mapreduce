@@ -1,17 +1,58 @@
+#' Tools for Working with Parallel Random Seeds
+#'
+#' @param seed A random seed
+#'
+#' @return
+#' `get_random_seed()` returns the _current_ `.Random.seed`.  If it does not
+#' exists, it returns `NULL`.
+#'
+#' `set_random_seed(seed)` sets a new value on `.Random.seed`, and invisibly
+#' returns the _old_ seed.  If `seed = NULL`, then the `.Random.seed` is
+#' removed.
+#'
+#' `next_random_seed()` updates `.Random.seed` by drawning an dummy random
+#' number internally, and invisibly returns the _new_ seed.
+#'
+#' `is_valid_random_seed(seed)` returns TRUE if `seed` is a valid random seed
+#' of any RNG kind, otherwise FALSE.
+#' This function does _not_ update `.Random.seed`.
+#'
+#' `is_lecyer_cmrg_seed(seed)` returns TRUE if `seed` is a valid random seed
+#' of kind `L'Ecuyer-CMRG`, otherwise FALSE.
+#' This function does _not_ update `.Random.seed`.
+#'
+#' `as_lecyer_cmrg_seed(seed)` returns `L'Ecuyer-CMRG` random seed based on
+#' random seed `seed`.  If `seed` is already of the right RNG kind, then that
+#' seed is returned as-is.  If a scalar, then a `L'Ecuyer-CMRG` random seed
+#' is generated from that seed with the help of `set.seed()`.
+#' This function does _not_ update `.Random.seed`.
+#'
+#' @seealso
+#' For more information on random number generation (RNG) in R,
+#' see [base::Random].
+#'
+#' @rdname random_seed_utils
+#' @export
 get_random_seed <- function() {
   env <- globalenv()
   env$.Random.seed
 }
 
+#' @rdname random_seed_utils
+#' @export
 set_random_seed <- function(seed) {
   env <- globalenv()
+  old_seed <- env$.Random.seed
   if (is.null(seed)) {
     rm(list = ".Random.seed", envir = env, inherits = FALSE)
   } else {
     env$.Random.seed <- seed
   }
+  invisible(old_seed)
 }
 
+#' @rdname random_seed_utils
+#' @export
 next_random_seed <- function(seed = get_random_seed()) {
   sample.int(n = 1L, size = 1L, replace = FALSE)
   seed_next <- get_random_seed()
@@ -19,6 +60,8 @@ next_random_seed <- function(seed = get_random_seed()) {
   invisible(seed_next)
 }
 
+#' @rdname random_seed_utils
+#' @export
 is_valid_random_seed <- function(seed) {
   oseed <- get_random_seed()
   on.exit(set_random_seed(oseed))
@@ -33,6 +76,8 @@ is_valid_random_seed <- function(seed) {
 ## For RNGkind("L'Ecuyer-CMRG") we should have (see help('RNGkind')):
 ##   .Random.seed <- c(rng.kind, n) where length(n) == 6L.
 ## From R source code: check for rng.kind %% 10000L == 407L
+#' @rdname random_seed_utils
+#' @export
 is_lecyer_cmrg_seed <- function(seed) {
   is.numeric(seed) &&
     length(seed) == 7L &&
@@ -40,7 +85,9 @@ is_lecyer_cmrg_seed <- function(seed) {
     (seed[1] %% 10000L == 407L)
 }
 
-# @importFrom utils capture.output
+#' @rdname random_seed_utils
+#' @importFrom utils capture.output
+#' @export
 as_lecyer_cmrg_seed <- function(seed) {
   ## Generate a L'Ecuyer-CMRG seed (existing or random)?
   if (is.logical(seed)) {
