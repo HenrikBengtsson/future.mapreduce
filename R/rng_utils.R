@@ -27,6 +27,8 @@
 #' is generated from that seed with the help of `set.seed()`.
 #' This function does _not_ update `.Random.seed`.
 #'
+#' @example incl/random_seed_utils.R
+#'
 #' @seealso
 #' For more information on random number generation (RNG) in R,
 #' see [base::Random].
