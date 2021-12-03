@@ -16,12 +16,17 @@ z <- sample.int(100L, size = 2L)
 seed_after2 <- get_random_seed()
 print(z)
 
-## The same random numbers where drawn ...
-stopifnot(identical(z, c(x, y)))
-
-## ... and the RNG state is the same after the second
+## The RNG state is the same after the second ...
 ## run as after the first, two-step, approach
 stopifnot(identical(seed_after2, seed_after))
+
+## .... and the exact same set of random numbers where
+## drawn [only true in R (>= 4.0.0)]
+if (getRversion() >= "4.0.0") {
+  stopifnot(identical(z, c(x, y)))
+} else {
+  stopifnot(identical(z[seq_along(x)], x))
+}
 
 set_random_seed(seed_org)
 stopifnot(identical(get_random_seed(), seed_org))
