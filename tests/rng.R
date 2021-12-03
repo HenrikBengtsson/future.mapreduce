@@ -121,6 +121,47 @@ res <- tryCatch({
 print(res)
 stopifnot(inherits(res, "error"))
 
+
+message(" - replicated RNG draws")
+library(future.mapreduce)
+
+seed_org <- next_random_seed()
+set.seed(42)
+
+## Draw two random number from 1:100 one after the other
+seed_before <- get_random_seed()
+kind_before <- RNGkind()
+x <- sample.int(100L, size = 5L)
+y <- sample.int(100L, size = 5L)
+seed_after <- get_random_seed()
+kind_after <- RNGkind()
+print(c(x, y))
+
+## Draw two random number from 1:100 at once
+set_random_seed(seed_before)
+kind_before2 <- RNGkind()
+z <- sample.int(100L, size = 10L)
+seed_after2 <- get_random_seed()
+kind_after2 <- RNGkind()
+print(z)
+
+## The RNG state is the same after the second ...
+## run as after the first, two-step, approach
+stopifnot(identical(seed_after2, seed_after))
+stopifnot(identical(kind_before2, kind_before))
+stopifnot(identical(kind_after2, kind_after))
+
+## .... and the exact same set of random numbers where
+## drawn [only true in R (>= 4.0.0)]
+if (getRversion() >= "4.0.0") {
+  stopifnot(identical(z, c(x, y)))
+} else {
+  stopifnot(identical(z[seq_along(x)], x))
+}
+
+set_random_seed(seed_org)
+stopifnot(identical(get_random_seed(), seed_org))
+
 message("*** RNG ... DONE")
 
 source("incl/end.R")
