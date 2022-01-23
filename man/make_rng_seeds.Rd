@@ -17,9 +17,29 @@ consist of a valid RNG seed.}
 \item{debug}{If \code{TRUE}, debug output is produced, otherwise not.}
 }
 \value{
-Returns a non-named list of length \code{count}, or \code{NULL}.
-Any seed returned is a valid RNG seed.
+Returns a non-named list of \code{count} independent \verb{L'Ecuyer-CMRG}
+random seeds.
+If \code{seed} is \code{NULL} or \code{FALSE}, then \code{NULL} is returned.
 }
 \description{
 Produce Reproducible Seeds for Parallel Random Number Generation
+}
+\details{
+This function generates \code{count} independent \verb{L'Ecuyer-CMRG} random seeds
+that can be used as \code{.Random.seed} for parallel processing.  These seeds
+are produced with help of \code{\link[parallel:RngStream]{parallel::nextRNGSubStream()}} and
+\code{\link[parallel:RngStream]{parallel::nextRNGStream()}} using a strategy that\if{html}{\out{<div class="sourceCode r">}}\preformatted{seed <- <initial RNG seed>
+for (ii in seq_len(count)) \{
+  seeds[[ii]] <- nextRNGSubStream(seed)
+  seed <- nextRNGStream(seed)
+\}
+}\if{html}{\out{</div>}}
+
+This function forwards the RNG state \code{1 + count} times if \code{seed = TRUE}.
+}
+\examples{
+## Set up L'Ecuyer-CMRG random seeds for 100 parallel tasks
+## based on .Random.seed in the current R process
+seeds <- make_rng_seeds(100L, seed = TRUE)
+str(seeds)
 }

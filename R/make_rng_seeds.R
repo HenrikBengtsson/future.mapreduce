@@ -9,8 +9,26 @@
 #'
 #' @param debug If `TRUE`, debug output is produced, otherwise not.
 #'
-#' @return Returns a non-named list of length `count`, or `NULL`.
-#' Any seed returned is a valid RNG seed.
+#' @return Returns a non-named list of `count` independent `L'Ecuyer-CMRG`
+#' random seeds.
+#' If `seed` is `NULL` or `FALSE`, then `NULL` is returned.
+#' 
+#' @example incl/make_rng_seeds.R
+#'
+#' @details
+#' This function generates `count` independent `L'Ecuyer-CMRG` random seeds
+#' that can be used as `.Random.seed` for parallel processing.  These seeds
+#' are produced with help of [parallel::nextRNGSubStream()] and
+#' [parallel::nextRNGStream()] using a strategy that 
+#'
+#' ```r
+#' seed <- <initial RNG seed>
+#' for (ii in seq_len(count)) {
+#'   seeds[[ii]] <- nextRNGSubStream(seed)
+#'   seed <- nextRNGStream(seed)
+#' }
+#' ```
+#' This function forwards the RNG state `1 + count` times if `seed = TRUE`.
 #' 
 #' @importFrom parallel nextRNGStream nextRNGSubStream splitIndices
 #' @importFrom utils capture.output str
@@ -37,7 +55,7 @@ make_rng_seeds <- function(count, seed = FALSE,
     seeds <- seed
     nseeds <- length(seeds)
     if (nseeds != count) {
-      stopf("Argument 'seed' is a list, which specifies the sequence of seeds to be used for each element iterated over, but length(seed) != number of elements: %g != %g", nseeds, count)
+      stopf("Argument 'seed' is a list, which specifies the sequence of seeds to be used for each element iterated over, but length(seed) != number of elements: %.0f != %.0f", nseeds, count)
     }
 
     ## Assert same type of RNG seeds?
