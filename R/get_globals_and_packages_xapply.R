@@ -1,18 +1,18 @@
-#' Identify Globals and Packages from a Map-Reduce Function Call
+#' Identify Globals and Packages of a Map-Reduce Function Call
 #'
-#' @param FUN ...
+#' @inheritParams future::getGlobalsAndPackages
 #'
-#' @param args ...
+#' @param FUN A \link[base:function]{function} that takes one or more
+#' arguments.
 #'
-#' @param MoreArgs ...
+#' @param args,MoreArgs (optional) A list of arguments passed to `FUN`.
+#' Only one of `args` and `MoreArgs` may be specified at the same time.
 #'
-#' @param envir ...
+#' @param envir The \link[base:environment]{environment} from where
+#' globals should be searched.
 #'
-#' @param future.globals ...
-#'
-#' @param future.packages ...
-#'
-#' @param debug ...
+#' @param packages (optional) a character vector specifying packages
+#' to be attached in the \R environment evaluating the future.
 #'
 #' @return A names list with elements `globals`, `packages`, and
 #' `scanForGlobals`.
@@ -20,11 +20,12 @@
 #' @importFrom globals globalsByName
 #' @importFrom future as.FutureGlobals getGlobalsAndPackages resolve
 #' @export
-getGlobalsAndPackagesXApply <- function(FUN, args = NULL, MoreArgs = NULL, envir, future.globals = TRUE, future.packages = NULL, debug = getOption("future.debug", FALSE)) {
+get_globals_and_packages_xapply <- function(FUN, args = NULL, MoreArgs = NULL, envir, globals = TRUE, packages = NULL) {
   use_args <- !is.null(args)
-  
-  packages <- NULL
-  globals <- future.globals
+
+  debug <- getOption("future.debug", FALSE)
+
+  pkgs <- NULL
   scanForGlobals <- FALSE
   if (is.logical(globals)) {
     ## Gather all globals?
@@ -40,12 +41,12 @@ getGlobalsAndPackagesXApply <- function(FUN, args = NULL, MoreArgs = NULL, envir
     }
     gp <- getGlobalsAndPackages(expr, envir = envir, globals = globals)
     globals <- gp$globals
-    packages <- gp$packages
+    pkgs <- gp$packages
     gp <- NULL
       
     if (debug) {
       mdebugf(" - globals found/used: [%d] %s", length(globals), hpaste(sQuote(names(globals))))
-      mdebugf(" - needed namespaces: [%d] %s", length(packages), hpaste(sQuote(packages)))
+      mdebugf(" - needed namespaces: [%d] %s", length(pkgs), hpaste(sQuote(pkgs)))
       mdebug("Finding globals ... DONE")
     }
   } else if (is.character(globals)) {
@@ -54,10 +55,10 @@ getGlobalsAndPackagesXApply <- function(FUN, args = NULL, MoreArgs = NULL, envir
   } else if (is.list(globals)) {
     names <- names(globals)
     if (length(globals) > 0 && is.null(names)) {
-      stop("Invalid argument 'future.globals'. All globals must be named.")
+      stop("Invalid argument 'globals'. All globals must be named.")
     }
   } else {
-    stopf("Invalid argument 'future.globals': %s", mode(globals))
+    stopf("Invalid argument 'globals': %s", mode(globals))
   }
   globals <- as.FutureGlobals(globals)
   stop_if_not(inherits(globals, "FutureGlobals"))
@@ -104,17 +105,17 @@ getGlobalsAndPackagesXApply <- function(FUN, args = NULL, MoreArgs = NULL, envir
     mstr(globals)
   }
 
-  if (!is.null(future.packages)) {
-    stop_if_not(is.character(future.packages))
-    future.packages <- unique(future.packages)
-    stop_if_not(!anyNA(future.packages), all(nzchar(future.packages)))
-    packages <- unique(c(packages, future.packages))
+  if (!is.null(packages)) {
+    stop_if_not(is.character(packages))
+    packages <- unique(packages)
+    stop_if_not(!anyNA(packages), all(nzchar(packages)))
+    pkgs <- unique(c(pkgs, packages))
   }
   
   if (debug) {
     mdebug("Packages to be attached in all futures:")
-    mstr(packages)
+    mstr(pkgs)
   }
 
-  list(globals = globals, packages = packages, scanForGlobals = scanForGlobals)
+  list(globals = globals, packages = pkgs, scanForGlobals = scanForGlobals)
 }
