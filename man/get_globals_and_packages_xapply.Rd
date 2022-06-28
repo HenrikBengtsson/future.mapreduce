@@ -8,9 +8,9 @@ get_globals_and_packages_xapply(
   FUN,
   args = NULL,
   MoreArgs = NULL,
-  envir,
   globals = TRUE,
-  packages = NULL
+  packages = NULL,
+  envir = parent.frame()
 )
 }
 \arguments{
@@ -20,17 +20,20 @@ arguments.}
 \item{args, MoreArgs}{(optional) A list of arguments passed to \code{FUN}.
 Only one of \code{args} and \code{MoreArgs} may be specified at the same time.}
 
-\item{envir}{The \link[base:environment]{environment} from where
-globals should be searched.}
-
 \item{globals}{(optional) a logical, a character vector, a named list, or a \link[globals]{Globals} object.  If TRUE, globals are identified by code inspection based on \code{expr} and \code{tweak} searching from environment \code{envir}.  If FALSE, no globals are used.  If a character vector, then globals are identified by lookup based their names \code{globals} searching from environment \code{envir}.  If a named list or a Globals object, the globals are used as is.}
 
 \item{packages}{(optional) a character vector specifying packages
 to be attached in the \R environment evaluating the future.}
+
+\item{envir}{The \link[base:environment]{environment} from where
+globals should be searched.}
 }
 \value{
-A names list with elements \code{globals}, \code{packages}, and
-\code{scanForGlobals}.
+A names list with elements:
+\itemize{
+\item \code{globals} - a \link[future:FutureGlobals]{FutureGlobals} object
+\item \code{packages} - a character vector of package names
+}
 }
 \description{
 Identify Globals and Packages of a Map-Reduce Function Call

@@ -2,18 +2,14 @@ source("incl/start.R")
 options(future.debug = FALSE)
 
 assert_results <- function(res) {
-  stopifnot(is.list(res), length(res) == 3L)
-  stopifnot(all(c("globals", "packages", "scanForGlobals") %in% names(res)))
+  stopifnot(is.list(res), length(res) == 2L)
+  stopifnot(all(c("globals", "packages") %in% names(res)))
   
   globals <- res[["globals"]]
   stopifnot(inherits(globals, "Globals"), inherits(globals, "FutureGlobals"))
 
   packages <- res[["packages"]]
   if (!is.null(packages)) stopifnot(is.character(packages), !anyNA(packages))
-
-  scanForGlobals <- res$scanForGlobals
-  stopifnot(is.logical(scanForGlobals), length(scanForGlobals) == 1L,
-            !is.na(scanForGlobals))
 
   invisible(res)
 } # assert_results()

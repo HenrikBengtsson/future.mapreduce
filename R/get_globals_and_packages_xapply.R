@@ -8,30 +8,31 @@
 #' @param args,MoreArgs (optional) A list of arguments passed to `FUN`.
 #' Only one of `args` and `MoreArgs` may be specified at the same time.
 #'
-#' @param envir The \link[base:environment]{environment} from where
-#' globals should be searched.
-#'
 #' @param packages (optional) a character vector specifying packages
 #' to be attached in the \R environment evaluating the future.
 #'
-#' @return A names list with elements `globals`, `packages`, and
-#' `scanForGlobals`.
+#' @param envir The \link[base:environment]{environment} from where
+#' globals should be searched.
+#'
+#' @return
+#' A names list with elements:
+#'
+#' * `globals` - a \link[future:FutureGlobals]{FutureGlobals} object
+#' * `packages` - a character vector of package names
 #'
 #' @importFrom globals globalsByName
 #' @importFrom future as.FutureGlobals getGlobalsAndPackages resolve
 #' @export
-get_globals_and_packages_xapply <- function(FUN, args = NULL, MoreArgs = NULL, envir, globals = TRUE, packages = NULL) {
+get_globals_and_packages_xapply <- function(FUN, args = NULL, MoreArgs = NULL, globals = TRUE, packages = NULL, envir = parent.frame()) {
   use_args <- !is.null(args)
 
   debug <- getOption("future.debug", FALSE)
 
   pkgs <- NULL
-  scanForGlobals <- FALSE
   if (is.logical(globals)) {
     ## Gather all globals?
     if (globals) {
       if (debug) mdebug("Finding globals ...")
-      scanForGlobals <- TRUE
       expr <- do.call(call, args = c(list("FUN"),
                                      if (use_args) args else MoreArgs))
     } else {
@@ -117,5 +118,8 @@ get_globals_and_packages_xapply <- function(FUN, args = NULL, MoreArgs = NULL, e
     mstr(pkgs)
   }
 
-  list(globals = globals, packages = pkgs, scanForGlobals = scanForGlobals)
+  list(
+    globals = globals,
+    packages = pkgs
+  )
 }
