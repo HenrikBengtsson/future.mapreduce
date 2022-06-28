@@ -28,7 +28,9 @@ Produce Reproducible Seeds for Parallel Random Number Generation
 This function generates \code{count} independent \verb{L'Ecuyer-CMRG} random seeds
 that can be used as \code{.Random.seed} for parallel processing.  These seeds
 are produced with help of \code{\link[parallel:RngStream]{parallel::nextRNGSubStream()}} and
-\code{\link[parallel:RngStream]{parallel::nextRNGStream()}} using a strategy that\if{html}{\out{<div class="sourceCode r">}}\preformatted{seed <- <initial RNG seed>
+\code{\link[parallel:RngStream]{parallel::nextRNGStream()}} using a strategy that
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{seed <- <initial RNG seed>
 for (ii in seq_len(count)) \{
   seeds[[ii]] <- nextRNGSubStream(seed)
   seed <- nextRNGStream(seed)
