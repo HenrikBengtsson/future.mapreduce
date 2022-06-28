@@ -5,8 +5,12 @@
 #' @param FUN A \link[base:function]{function} that takes one or more
 #' arguments.
 #'
-#' @param args,MoreArgs (optional) A list of arguments passed to `FUN`.
-#' Only one of `args` and `MoreArgs` may be specified at the same time.
+#' @param args (optional) A list of arguments passed to `FUN`, either via
+#' a named argument (`args_name`), or via \dots.
+#'
+#' @param args_name If `"..."`, then the arguments in `args` are passed
+#' to `FUN()` as individual arguments.  If a string, then `args` as
+#' passed to `FUN()` via the argument of this name.
 #'
 #' @param packages (optional) a character vector specifying packages
 #' to be attached in the \R environment evaluating the future.
@@ -23,8 +27,13 @@
 #' @importFrom globals globalsByName
 #' @importFrom future as.FutureGlobals getGlobalsAndPackages resolve
 #' @export
-get_globals_and_packages_xapply <- function(FUN, args = NULL, MoreArgs = NULL, globals = TRUE, packages = NULL, envir = parent.frame()) {
-  use_args <- !is.null(args)
+get_globals_and_packages_xapply <- function(FUN, args = NULL, args_name = "...", globals = TRUE, packages = NULL, envir = parent.frame()) {
+  stop_if_not(
+    length(args_name) == 1L,
+    is.character(args_name),
+    !is.na(args_name),
+    nzchar(args_name)
+  )
 
   debug <- getOption("future.debug", FALSE)
 
@@ -33,12 +42,10 @@ get_globals_and_packages_xapply <- function(FUN, args = NULL, MoreArgs = NULL, g
     ## Gather all globals?
     if (globals) {
       if (debug) mdebug("Finding globals ...")
-      expr <- do.call(call, args = c(list("FUN"),
-                                     if (use_args) args else MoreArgs))
+      expr <- do.call(call, args = c(list("FUN"), args))
     } else {
       expr <- NULL
-      attr(globals, "add") <- c(attr(globals, "add"),
-                                c("FUN", if (use_args) "..." else "MoreArgs"))
+      attr(globals, "add") <- c(attr(globals, "add"), "FUN", args_name)
     }
     gp <- getGlobalsAndPackages(expr, envir = envir, globals = globals)
     globals <- gp$globals
@@ -51,7 +58,7 @@ get_globals_and_packages_xapply <- function(FUN, args = NULL, MoreArgs = NULL, g
       mdebug("Finding globals ... DONE")
     }
   } else if (is.character(globals)) {
-    globals <- unique(c(globals, "FUN", if (use_args) "..." else "MoreArgs"))
+    globals <- unique(c(globals, "FUN", args_name))
     globals <- globalsByName(globals, envir = envir, mustExist = FALSE)
   } else if (is.list(globals)) {
     names <- names(globals)
@@ -69,7 +76,7 @@ get_globals_and_packages_xapply <- function(FUN, args = NULL, MoreArgs = NULL, g
     globals <- c(globals, FUN = FUN)
   }
   
-  if (use_args) {
+  if (args_name == "...") {
     if (!is.element("...", names)) {
       if (debug) mdebug("Getting '...' globals ...")
       dotdotdot <- globalsByName("...", envir = envir, mustExist = TRUE)
@@ -84,8 +91,10 @@ get_globals_and_packages_xapply <- function(FUN, args = NULL, MoreArgs = NULL, g
       if (debug) mdebug("Getting '...' globals ... DONE")
       globals <- c(globals, dotdotdot)
     }
-  } else if (!is.element("MoreArgs", names)) {
-    globals <- c(globals, list(MoreArgs = MoreArgs))
+  } else if (!is.element(args_name, names)) {
+    args <- list(args)
+    names(args) <- args_name
+    globals <- c(globals, args)
   }
 
   ## Assert there are no reserved variables names among globals
@@ -119,7 +128,7 @@ get_globals_and_packages_xapply <- function(FUN, args = NULL, MoreArgs = NULL, g
   }
 
   list(
-    globals = globals,
+     globals = globals,
     packages = pkgs
   )
 }

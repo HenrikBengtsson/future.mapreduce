@@ -21,11 +21,16 @@ envir <- new.env()
 
 for (globals in list(TRUE, FALSE, character(), list())) {
   FUN <- function(...) NULL
-  res <- get_globals_and_packages_xapply(FUN = FUN, envir = envir, globals = globals)
+  res <- get_globals_and_packages_xapply(
+    FUN = FUN,
+    globals = globals,
+    envir = envir
+  )
   assert_results(res)
   stopifnot(
     length(res$globals) == 2L,
-    all(c("...future.FUN", "MoreArgs") %in% names(res$globals))
+    all(c("...future.FUN", "...") %in% names(res$globals)),
+    length(res$packages) == 0L
   )
 }
 
@@ -35,7 +40,7 @@ res <- get_globals_and_packages_xapply(FUN = FUN, envir = envir)
 assert_results(res)
 stopifnot(
   length(res$globals) == 2L,
-  all(c("...future.FUN", "MoreArgs") %in% names(res$globals)),
+  all(c("...future.FUN", "...") %in% names(res$globals)),
   length(res$packages) == 0L
 )
 
@@ -45,7 +50,7 @@ res <- get_globals_and_packages_xapply(FUN = FUN, envir = envir)
 assert_results(res)
 stopifnot(
   length(res$globals) == 2L,
-  all(c("...future.FUN", "MoreArgs") %in% names(res$globals)),
+  all(c("...future.FUN", "...") %in% names(res$globals)),
   length(res$packages) == 0L
 )
 
@@ -56,7 +61,7 @@ res <- get_globals_and_packages_xapply(FUN = FUN, envir = envir)
 assert_results(res)
 stopifnot(
   length(res$globals) == 2L,
-  all(c("...future.FUN", "MoreArgs") %in% names(res$globals)),
+  all(c("...future.FUN", "...") %in% names(res$globals)),
   length(res$packages) == 1L,
   all(c("utils") %in% res$packages)
 )

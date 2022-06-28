@@ -7,7 +7,7 @@
 get_globals_and_packages_xapply(
   FUN,
   args = NULL,
-  MoreArgs = NULL,
+  args_name = "...",
   globals = TRUE,
   packages = NULL,
   envir = parent.frame()
@@ -17,8 +17,12 @@ get_globals_and_packages_xapply(
 \item{FUN}{A \link[base:function]{function} that takes one or more
 arguments.}
 
-\item{args, MoreArgs}{(optional) A list of arguments passed to \code{FUN}.
-Only one of \code{args} and \code{MoreArgs} may be specified at the same time.}
+\item{args}{(optional) A list of arguments passed to \code{FUN}, either via
+a named argument (\code{args_name}), or via \dots.}
+
+\item{args_name}{If \code{"..."}, then the arguments in \code{args} are passed
+to \code{FUN()} as individual arguments.  If a string, then \code{args} as
+passed to \code{FUN()} via the argument of this name.}
 
 \item{globals}{(optional) a logical, a character vector, a named list, or a \link[globals]{Globals} object.  If TRUE, globals are identified by code inspection based on \code{expr} and \code{tweak} searching from environment \code{envir}.  If FALSE, no globals are used.  If a character vector, then globals are identified by lookup based their names \code{globals} searching from environment \code{envir}.  If a named list or a Globals object, the globals are used as is.}
 
