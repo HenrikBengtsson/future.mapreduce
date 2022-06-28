@@ -44,7 +44,7 @@ stopifnot(is.null(seeds))
 seeds <- make_rng_seeds(2L, seed = FALSE)
 stopifnot(is.null(seeds))
 
-seeds <- make_rng_seeds(0L, seed = 42L, debug = TRUE)
+seeds <- make_rng_seeds(0L, seed = 42L)
 stopifnot(length(seeds) == 0L, identical(seeds, list()))
 
 seeds <- make_rng_seeds(2L, seed = TRUE)
@@ -53,11 +53,11 @@ stopifnot(length(seeds) == 2L, all(sapply(seeds, FUN = is_lecyer_cmrg_seed)))
 seeds <- make_rng_seeds(3L, seed = 42L)
 stopifnot(length(seeds) == 3L, all(sapply(seeds, FUN = is_lecyer_cmrg_seed)))
 
-seeds <- make_rng_seeds(1L, seed = 42L, debug = TRUE)
+seeds <- make_rng_seeds(1L, seed = 42L)
 stopifnot(length(seeds) == 1L, all(sapply(seeds, FUN = is_lecyer_cmrg_seed)))
 
 seeds0 <- lapply(1:3, FUN = as_lecyer_cmrg_seed)
-seeds <- make_rng_seeds(length(seeds0), seed = seeds0, debug = TRUE)
+seeds <- make_rng_seeds(length(seeds0), seed = seeds0)
 stopifnot(length(seeds) == length(seeds0),
           all(sapply(seeds, FUN = is_lecyer_cmrg_seed)))
 

@@ -4,7 +4,7 @@
 \alias{make_rng_seeds}
 \title{Produce Reproducible Seeds for Parallel Random Number Generation}
 \usage{
-make_rng_seeds(count, seed = FALSE, debug = getOption("future.debug", FALSE))
+make_rng_seeds(count, seed = FALSE)
 }
 \arguments{
 \item{count}{The number of RNG seeds to produce.}
@@ -13,8 +13,6 @@ make_rng_seeds(count, seed = FALSE, debug = getOption("future.debug", FALSE))
 or not.  (\code{seed = NULL} corresponds to \code{seed = FALSE}).
 If a list, then it should be of length \code{count} and each element should
 consist of a valid RNG seed.}
-
-\item{debug}{If \code{TRUE}, debug output is produced, otherwise not.}
 }
 \value{
 Returns a non-named list of \code{count} independent \verb{L'Ecuyer-CMRG}
@@ -32,8 +30,8 @@ are produced with help of \code{\link[parallel:RngStream]{parallel::nextRNGSubSt
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{seed <- <initial RNG seed>
 for (ii in seq_len(count)) \{
-  seeds[[ii]] <- nextRNGSubStream(seed)
-  seed <- nextRNGStream(seed)
+  seeds[[ii]] <- parallel::nextRNGSubStream(seed)
+  seed <- parallel::nextRNGStream(seed)
 \}
 }\if{html}{\out{</div>}}
 
