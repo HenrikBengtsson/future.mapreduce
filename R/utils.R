@@ -1,11 +1,3 @@
-isFALSE <- function(x) {
-  is.logical(x) && length(x) == 1L && !is.na(x) && !x
-}
-
-isNA <- function(x) {
-  is.logical(x) && length(x) == 1L && is.na(x)
-}
-
 stop_if_not <- function(...) {
   res <- list(...)
   for (ii in 1L:length(res)) {
