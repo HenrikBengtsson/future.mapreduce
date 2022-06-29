@@ -1,15 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://future.mapreduce.futureverse.org/404.html</loc>
+  </url>
+  <url>
+    <loc>https://future.mapreduce.futureverse.org/CONDUCT.html</loc>
+  </url>
+  <url>
+    <loc>https://future.mapreduce.futureverse.org/CONTRIBUTING.html</loc>
+  </url>
+  <url>
+    <loc>https://future.mapreduce.futureverse.org/authors.html</loc>
+  </url>
+  <url>
     <loc>https://future.mapreduce.futureverse.org/index.html</loc>
   </url>
   <url>
-    <loc>https://future.mapreduce.futureverse.org/reference/getGlobalsAndPackagesXApply.html</loc>
+    <loc>https://future.mapreduce.futureverse.org/news/index.html</loc>
   </url>
   <url>
-    <loc>https://future.mapreduce.futureverse.org/reference/makeChunks.html</loc>
+    <loc>https://future.mapreduce.futureverse.org/reference/get_globals_and_packages_xapply.html</loc>
+  </url>
+  <url>
+    <loc>https://future.mapreduce.futureverse.org/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>https://future.mapreduce.futureverse.org/reference/make_chunks.html</loc>
   </url>
   <url>
     <loc>https://future.mapreduce.futureverse.org/reference/make_rng_seeds.html</loc>
+  </url>
+  <url>
+    <loc>https://future.mapreduce.futureverse.org/reference/random_seed_utils.html</loc>
   </url>
 </urlset>
