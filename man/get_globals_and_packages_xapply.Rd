@@ -6,7 +6,7 @@
 \usage{
 get_globals_and_packages_xapply(
   fun,
-  fun_name = "FUN",
+  fun_name = as.character(substitute(fun)),
   args = NULL,
   args_name = "...",
   globals = TRUE,

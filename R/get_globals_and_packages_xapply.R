@@ -30,7 +30,7 @@
 #' @importFrom globals globalsByName
 #' @importFrom future as.FutureGlobals getGlobalsAndPackages resolve
 #' @export
-get_globals_and_packages_xapply <- function(fun, fun_name = "FUN", args = NULL, args_name = "...", globals = TRUE, packages = NULL, envir = parent.frame()) {
+get_globals_and_packages_xapply <- function(fun, fun_name = as.character(substitute(fun)), args = NULL, args_name = "...", globals = TRUE, packages = NULL, envir = parent.frame()) {
   stop_if_not(
     length(fun_name) == 1L,
     is.character(fun_name),

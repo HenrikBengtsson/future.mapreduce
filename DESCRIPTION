@@ -1,5 +1,5 @@
 Package: future.mapreduce
-Version: 0.0.0-9002
+Version: 0.0.0-9003
 Title: Utility Functions for Future Map-Reduce API Packages
 Depends:
     R (>= 3.2.0)
