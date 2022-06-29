@@ -2,18 +2,18 @@
 #'
 #' @inheritParams future::getGlobalsAndPackages
 #'
-#' @param FUN A \link[base:function]{function} that takes one or more
+#' @param fun A \link[base:function]{function} that takes one or more
 #' arguments.
 #'
 #' @param fun_name The name of the argument that `fun` should be passed
 #' as.
 #'
-#' @param args (optional) A list of arguments passed to `FUN`, either via
+#' @param args (optional) A list of arguments passed to `fun`, either via
 #' a named argument (`args_name`), or via \dots.
 #'
 #' @param args_name If `"..."`, then the arguments in `args` are passed
-#' to `FUN()` as individual arguments.  If a string, then `args` as
-#' passed to `FUN()` via the argument of this name.
+#' to `fun()` as individual arguments.  If a string, then `args` as
+#' passed to `fun()` via the argument of this name.
 #'
 #' @param packages (optional) a character vector specifying packages
 #' to be attached in the \R environment evaluating the future.
@@ -30,7 +30,7 @@
 #' @importFrom globals globalsByName
 #' @importFrom future as.FutureGlobals getGlobalsAndPackages resolve
 #' @export
-get_globals_and_packages_xapply <- function(FUN, fun_name = "FUN", args = NULL, args_name = "...", globals = TRUE, packages = NULL, envir = parent.frame()) {
+get_globals_and_packages_xapply <- function(fun, fun_name = "FUN", args = NULL, args_name = "...", globals = TRUE, packages = NULL, envir = parent.frame()) {
   stop_if_not(
     length(fun_name) == 1L,
     is.character(fun_name),
@@ -84,11 +84,11 @@ get_globals_and_packages_xapply <- function(FUN, fun_name = "FUN", args = NULL, 
   if (!is.element(fun_name, names)) {
     if (packageVersion("globals") >= "0.15.1-9005"  ) {
       globals <- globals
-      globals[[fun_name]] <- FUN
+      globals[[fun_name]] <- fun
     } else {
-      FUN <- list(FUN)
-      names(FUN) <- fun_name
-      globals <- c(globals, FUN)
+      fun <- list(fun)
+      names(fun) <- fun_name
+      globals <- c(globals, fun)
     }
   }
   
@@ -114,16 +114,22 @@ get_globals_and_packages_xapply <- function(FUN, fun_name = "FUN", args = NULL, 
   }
 
   ## Assert there are no reserved variables names among globals
-  reserved <- intersect(c("...future.FUN", "...future.elements_ii",
-                        "...future.seeds_ii"), names)
+  reserved <- intersect(
+    c(
+      sprintf("...future.%s", fun_name),
+      "...future.elements_ii",
+      "...future.seeds_ii"
+    ),
+    names
+  )
   if (length(reserved) > 0) {
     stopf("Detected globals using reserved variables names: %s",
          paste(sQuote(reserved), collapse = ", "))
   }
  
-  ## Avoid FUN() clash with mapply(..., FUN) below.
+  ## Avoid fun() clash with mapply(..., fun) below.
   names <- names(globals)
-  names[names == fun_name] <- "...future.FUN"
+  names[names == fun_name] <- sprintf("...future.%s", fun_name)
   names(globals) <- names
   
   if (debug) {

@@ -23,7 +23,7 @@ for (globals in list(TRUE, FALSE, character(), list())) {
   message(sprintf("- globals=%s", deparse(globals)))
   FUN <- function(...) NULL
   res <- get_globals_and_packages_xapply(
-    FUN = FUN,
+    FUN,
     globals = globals,
     envir = envir
   )
@@ -37,7 +37,7 @@ for (globals in list(TRUE, FALSE, character(), list())) {
 
 ## FIXME: Why doesn't 'b' show up as a global here? /HB 2021-11-25
 FUN <- function(a) b
-res <- get_globals_and_packages_xapply(FUN = FUN, envir = envir)
+res <- get_globals_and_packages_xapply(FUN, envir = envir)
 assert_results(res)
 stopifnot(
   length(res$globals) == 2L,
@@ -47,7 +47,7 @@ stopifnot(
 
 
 FUN <- function(pkg) utils::packageVersion(pkg)
-res <- get_globals_and_packages_xapply(FUN = FUN, envir = envir)
+res <- get_globals_and_packages_xapply(FUN, envir = envir)
 assert_results(res)
 stopifnot(
   length(res$globals) == 2L,
@@ -58,7 +58,7 @@ stopifnot(
 
 library(utils)
 FUN <- function(pkg) packageVersion(pkg)
-res <- get_globals_and_packages_xapply(FUN = FUN, envir = envir)
+res <- get_globals_and_packages_xapply(FUN, envir = envir)
 assert_results(res)
 stopifnot(
   length(res$globals) == 2L,
@@ -68,11 +68,11 @@ stopifnot(
 )
 
 FUN <- function(...) NULL
-res <- get_globals_and_packages_xapply(FUN = FUN, envir = envir, packages = "utils")
+res <- get_globals_and_packages_xapply(FUN, envir = envir, packages = "utils")
 assert_results(res)
 
 FUN <- function(...) NULL
-res <- get_globals_and_packages_xapply(FUN = FUN, envir = envir, args = list(a = 42))
+res <- get_globals_and_packages_xapply(FUN, envir = envir, args = list(a = 42))
 assert_results(res)
 
 
@@ -82,33 +82,33 @@ FUN <- function(...) NULL
 envir <- new.env()
 
 res <- tryCatch({
-  get_globals_and_packages_xapply(FUN = FUN, envir = envir, globals = list(42))
+  get_globals_and_packages_xapply(FUN, envir = envir, globals = list(42))
 }, error = identity)
 stopifnot(inherits(res, "error"))
 
 res <- tryCatch({
-  get_globals_and_packages_xapply(FUN = FUN, envir = envir, globals = 42)
+  get_globals_and_packages_xapply(FUN, envir = envir, globals = 42)
 }, error = identity)
 stopifnot(inherits(res, "error"))
 
 ...future.FUN <- 42
 res <- tryCatch({
-  get_globals_and_packages_xapply(FUN = FUN, envir = envir, globals = "...future.FUN")
+  get_globals_and_packages_xapply(FUN, envir = envir, globals = "...future.FUN")
 }, error = identity)
 stopifnot(inherits(res, "error"))
 
 res <- tryCatch({
-  get_globals_and_packages_xapply(FUN = FUN, envir = envir, packages = 42)
+  get_globals_and_packages_xapply(FUN, envir = envir, packages = 42)
 }, error = identity)
 stopifnot(inherits(res, "error"))
 
 res <- tryCatch({
-  get_globals_and_packages_xapply(FUN = FUN, envir = envir, packages = NA_character_)
+  get_globals_and_packages_xapply(FUN, envir = envir, packages = NA_character_)
 }, error = identity)
 stopifnot(inherits(res, "error"))
 
 res <- tryCatch({
-  get_globals_and_packages_xapply(FUN = FUN, envir = envir, packages = "")
+  get_globals_and_packages_xapply(FUN, envir = envir, packages = "")
 }, error = identity)
 stopifnot(inherits(res, "error"))
 
