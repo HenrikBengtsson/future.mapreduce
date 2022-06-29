@@ -5,6 +5,9 @@
 #' @param FUN A \link[base:function]{function} that takes one or more
 #' arguments.
 #'
+#' @param fun_name The name of the argument that `fun` should be passed
+#' as.
+#'
 #' @param args (optional) A list of arguments passed to `FUN`, either via
 #' a named argument (`args_name`), or via \dots.
 #'
@@ -27,7 +30,13 @@
 #' @importFrom globals globalsByName
 #' @importFrom future as.FutureGlobals getGlobalsAndPackages resolve
 #' @export
-get_globals_and_packages_xapply <- function(FUN, args = NULL, args_name = "...", globals = TRUE, packages = NULL, envir = parent.frame()) {
+get_globals_and_packages_xapply <- function(FUN, fun_name = "FUN", args = NULL, args_name = "...", globals = TRUE, packages = NULL, envir = parent.frame()) {
+  stop_if_not(
+    length(fun_name) == 1L,
+    is.character(fun_name),
+    !is.na(fun_name),
+    nzchar(fun_name)
+  )
   stop_if_not(
     length(args_name) == 1L,
     is.character(args_name),
@@ -42,10 +51,10 @@ get_globals_and_packages_xapply <- function(FUN, args = NULL, args_name = "...",
     ## Gather all globals?
     if (globals) {
       if (debug) mdebug("Finding globals ...")
-      expr <- do.call(call, args = c(list("FUN"), args))
+      expr <- do.call(call, args = c(list(fun_name), args))
     } else {
       expr <- NULL
-      attr(globals, "add") <- c(attr(globals, "add"), "FUN", args_name)
+      attr(globals, "add") <- c(attr(globals, "add"), fun_name, args_name)
     }
     gp <- getGlobalsAndPackages(expr, envir = envir, globals = globals)
     globals <- gp$globals
@@ -58,7 +67,7 @@ get_globals_and_packages_xapply <- function(FUN, args = NULL, args_name = "...",
       mdebug("Finding globals ... DONE")
     }
   } else if (is.character(globals)) {
-    globals <- unique(c(globals, "FUN", args_name))
+    globals <- unique(c(globals, fun_name, args_name))
     globals <- globalsByName(globals, envir = envir, mustExist = FALSE)
   } else if (is.list(globals)) {
     names <- names(globals)
@@ -72,8 +81,15 @@ get_globals_and_packages_xapply <- function(FUN, args = NULL, args_name = "...",
   stop_if_not(inherits(globals, "FutureGlobals"))
   
   names <- names(globals)
-  if (!is.element("FUN", names)) {
-    globals <- c(globals, FUN = FUN)
+  if (!is.element(fun_name, names)) {
+    if (packageVersion("globals") >= "0.15.1-9005"  ) {
+      globals <- globals
+      globals[[fun_name]] <- FUN
+    } else {
+      FUN <- list(FUN)
+      names(FUN) <- fun_name
+      globals <- c(globals, FUN)
+    }
   }
   
   if (args_name == "...") {
@@ -107,7 +123,7 @@ get_globals_and_packages_xapply <- function(FUN, args = NULL, args_name = "...",
  
   ## Avoid FUN() clash with mapply(..., FUN) below.
   names <- names(globals)
-  names[names == "FUN"] <- "...future.FUN"
+  names[names == fun_name] <- "...future.FUN"
   names(globals) <- names
   
   if (debug) {

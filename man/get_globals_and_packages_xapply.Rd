@@ -6,6 +6,7 @@
 \usage{
 get_globals_and_packages_xapply(
   FUN,
+  fun_name = "FUN",
   args = NULL,
   args_name = "...",
   globals = TRUE,
@@ -16,6 +17,9 @@ get_globals_and_packages_xapply(
 \arguments{
 \item{FUN}{A \link[base:function]{function} that takes one or more
 arguments.}
+
+\item{fun_name}{The name of the argument that \code{fun} should be passed
+as.}
 
 \item{args}{(optional) A list of arguments passed to \code{FUN}, either via
 a named argument (\code{args_name}), or via \dots.}

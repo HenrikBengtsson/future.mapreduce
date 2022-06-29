@@ -20,6 +20,7 @@ message("*** get_globals_and_packages_xapply() ...")
 envir <- new.env()
 
 for (globals in list(TRUE, FALSE, character(), list())) {
+  message(sprintf("- globals=%s", deparse(globals)))
   FUN <- function(...) NULL
   res <- get_globals_and_packages_xapply(
     FUN = FUN,
