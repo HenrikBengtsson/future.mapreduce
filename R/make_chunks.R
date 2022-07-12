@@ -35,7 +35,7 @@
 #' @importFrom parallel splitIndices
 #' @export
 make_chunks <- function(nelements, nworkers,
-                       scheduling = 1.0, chunk_size = NULL) {
+                        scheduling = 1.0, chunk_size = NULL) {
   stop_if_not(nelements >= 0L, nworkers >= 1L)
 
   ## 'chunk_size != NULL' takes precedence over 'scheduling'
