@@ -4,7 +4,7 @@ Title: Utility Functions for Future Map-Reduce API Packages
 Depends:
     R (>= 3.2.0)
 Imports:
-    future (>= 1.26.1),
+    future (>= 1.27.0),
     globals (>= 0.15.1),
     parallel,
     utils
@@ -17,5 +17,5 @@ License: GPL (>= 2)
 LazyLoad: TRUE
 URL: https://github.com/HenrikBengtsson/future.mapreduce
 BugReports: https://github.com/HenrikBengtsson/future.mapreduce/issues
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.1
 Roxygen: list(markdown = TRUE)
