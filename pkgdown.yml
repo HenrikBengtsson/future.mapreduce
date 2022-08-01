@@ -1,8 +1,8 @@
 pandoc: '2.18'
-pkgdown: 2.0.5
+pkgdown: 2.0.6
 pkgdown_sha: ~
 articles: {}
-last_built: 2022-07-12T12:03Z
+last_built: 2022-08-01T10:12Z
 urls:
   reference: https://future.mapreduce.futureverse.org/reference
   article: https://future.mapreduce.futureverse.org/articles
