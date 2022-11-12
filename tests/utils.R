@@ -161,13 +161,6 @@ message("*** mprint(), mstr() ... DONE")
 v <- future.mapreduce:::future_version()
 message(sprintf("future version: %s", sQuote(v)))
 
-for (name in c("digits", "unknown")) {
-  v <- future.mapreduce:::getOption(name)
-  message(sprintf("option %s: %s", sQuote(name), sQuote(v)))
-  v <- future.mapreduce:::getOption(name, default = NA)
-  message(sprintf("option %s: %s", sQuote(name), sQuote(v)))
-}
-
 message("*** utils ... DONE")
 
 source("incl/end.R")

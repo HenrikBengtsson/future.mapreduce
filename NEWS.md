@@ -3,7 +3,7 @@
 * Keeping `get_random_seed()`, `set_random_seed()`,
   `next_random_seed()`, `is_valid_random_seed()`,
   `is_lecyer_cmrg_seed()`, and `as_lecyer_cmrg_seed()` as internal
-  function in **future** for now.
+  functions in **future** for now.
 
 
 # Version 0.0.1 [2021-06-29]

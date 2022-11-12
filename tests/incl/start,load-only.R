@@ -50,7 +50,6 @@ make_rng_seeds <- future.mapreduce:::make_rng_seeds
 stop_if_not <- future.mapreduce:::stop_if_not
 assert_values2 <- future.mapreduce:::assert_values2
 stealth_sample.int <- future.mapreduce:::stealth_sample.int
-getOption <- future.mapreduce:::getOption
 msgf <- future.mapreduce:::msgf
 warnf <- future.mapreduce:::warnf
 stopf <- future.mapreduce:::stopf
