@@ -14,7 +14,7 @@
 #' `scheduling` argument.
 #'
 #' @return A list of chunks, where each chunk is an integer vector of
-#' unique indices \code{[1, nelements]}.  The union of all chunks
+#' unique indices in `[1, nelements]`.  The union of all chunks
 #' holds `nelements` elements and equals `1:nelements`.
 #' If `nelements == 0`, then an empty list is returned.
 #'

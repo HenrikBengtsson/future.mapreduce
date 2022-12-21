@@ -20,7 +20,7 @@ chunk, or \code{NULL}.  If \code{NULL}, then the chunk sizes are given by the
 }
 \value{
 A list of chunks, where each chunk is an integer vector of
-unique indices \code{[1, nelements]}.  The union of all chunks
+unique indices in \verb{[1, nelements]}.  The union of all chunks
 holds \code{nelements} elements and equals \code{1:nelements}.
 If \code{nelements == 0}, then an empty list is returned.
 }

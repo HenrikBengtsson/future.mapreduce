@@ -15,17 +15,18 @@ If a list, then it should be of length \code{count} and each element should
 consist of a valid RNG seed.}
 }
 \value{
-Returns a non-named list of \code{count} independent \verb{L'Ecuyer-CMRG}
-random seeds.
+Returns a non-named list of \code{count} independent
+\code{\link[=Random]{L'Ecuyer-CMRG}} random seeds.
 If \code{seed} is \code{NULL} or \code{FALSE}, then \code{NULL} is returned.
 }
 \description{
 Produce Reproducible Seeds for Parallel Random Number Generation
 }
 \details{
-This function generates \code{count} independent \verb{L'Ecuyer-CMRG} random seeds
-that can be used as \code{.Random.seed} for parallel processing.  These seeds
-are produced with help of \code{\link[parallel:RngStream]{parallel::nextRNGSubStream()}} and
+This function generates \code{count} independent
+\code{\link[=Random]{L'Ecuyer-CMRG}} random seeds that can be used as
+\code{.Random.seed} for parallel processing.  These seeds are produced with
+help of \code{\link[parallel:RngStream]{parallel::nextRNGSubStream()}} and
 \code{\link[parallel:RngStream]{parallel::nextRNGStream()}} using a strategy that
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{seed <- <initial RNG seed>

@@ -7,16 +7,17 @@
 #' If a list, then it should be of length `count` and each element should
 #' consist of a valid RNG seed.
 #'
-#' @return Returns a non-named list of `count` independent `L'Ecuyer-CMRG`
-#' random seeds.
+#' @return Returns a non-named list of `count` independent
+#' \code{\link[=Random]{L'Ecuyer-CMRG}} random seeds.
 #' If `seed` is `NULL` or `FALSE`, then `NULL` is returned.
 #' 
 #' @example incl/make_rng_seeds.R
 #'
 #' @details
-#' This function generates `count` independent `L'Ecuyer-CMRG` random seeds
-#' that can be used as `.Random.seed` for parallel processing.  These seeds
-#' are produced with help of [parallel::nextRNGSubStream()] and
+#' This function generates `count` independent
+#' \code{\link[=Random]{L'Ecuyer-CMRG}} random seeds that can be used as
+#' `.Random.seed` for parallel processing.  These seeds are produced with
+#' help of [parallel::nextRNGSubStream()] and
 #' [parallel::nextRNGStream()] using a strategy that 
 #'
 #' ```r
