@@ -1,21 +1,21 @@
 Package: future.mapreduce
-Version: 0.0.1-9002
+Version: 0.0.1-9003
 Title: Utility Functions for Future Map-Reduce API Packages
 Depends:
     R (>= 3.2.0)
 Imports:
-    future (>= 1.27.0),
-    globals (>= 0.15.1),
+    future (>= 1.30.0),
+    globals (>= 0.16.2),
     parallel,
     utils
 Suggests:
 Authors@R: c(person("Henrik", "Bengtsson", role=c("aut", "cre", "cph"),
                                           email = "henrikb@braju.com"),
              person("R Core Team", role = c("cph", "ctb")))
-Description: Utility functions for packages implementing map-reduce APIs on top of the future framework.
+Description: Utility functions for other packages implementing map-reduce APIs on top of the future framework. This package and its functions are intended for such packages only and should not be used elsewhere.
 License: GPL (>= 2)
 LazyLoad: TRUE
 URL: https://github.com/HenrikBengtsson/future.mapreduce
 BugReports: https://github.com/HenrikBengtsson/future.mapreduce/issues
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 Roxygen: list(markdown = TRUE)
