@@ -12,7 +12,7 @@ Suggests:
 Authors@R: c(person("Henrik", "Bengtsson", role=c("aut", "cre", "cph"),
                                           email = "henrikb@braju.com"),
              person("R Core Team", role = c("cph", "ctb")))
-Description: Utility functions for other packages implementing map-reduce APIs on top of the future framework. This package and its functions are intended for such packages only and should not be used elsewhere.
+Description: Utility functions for other packages implementing map-reduce APIs on top of the future framework - specifically 'future.apply', 'furrr', and 'doFuture'. This package and its functions are intended for those packages only and should not be used elsewhere.
 License: GPL (>= 2)
 LazyLoad: TRUE
 URL: https://github.com/HenrikBengtsson/future.mapreduce
