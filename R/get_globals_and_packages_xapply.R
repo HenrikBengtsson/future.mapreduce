@@ -82,14 +82,8 @@ get_globals_and_packages_xapply <- function(fun, fun_name = as.character(substit
   
   names <- names(globals)
   if (!is.element(fun_name, names)) {
-    if (packageVersion("globals") >= "0.15.1-9005"  ) {
-      globals <- globals
-      globals[[fun_name]] <- fun
-    } else {
-      fun <- list(fun)
-      names(fun) <- fun_name
-      globals <- c(globals, fun)
-    }
+    globals <- globals
+    globals[[fun_name]] <- fun
   }
   
   if (args_name == "...") {
